@@ -80,7 +80,7 @@
     tile.innerHTML =
       '<div class="tile__inner" style="width:100%;height:100%">' +
         '<img decoding="async" alt="' + coll + ' frame" ' +
-        'src="https://drive.google.com/thumbnail?id=' + id + '&sz=w800">' +
+        'src="../assets/photos/' + id + '">' +
       '</div>';
     camera.appendChild(tile);
     tiles.push(tile);

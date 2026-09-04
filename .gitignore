@@ -8,7 +8,3 @@ desktop.ini
 .vercel/
 node_modules/
 
-# Source video is 30MB — too heavy for the repo and for visitors.
-# The About section falls back to hero-poster.jpg until a compressed
-# hero.mp4 is added, which is NOT ignored and should be committed.
-assets/video/*.mov

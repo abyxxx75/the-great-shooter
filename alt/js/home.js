@@ -50,7 +50,7 @@
         '<span class="slide__cap">' + LABELS[item.coll] + '</span>' +
         '<span class="slide__frame" style="height:' + h + 'px">' +
           '<img loading="lazy" decoding="async" alt="' + LABELS[item.coll] + ' frame" ' +
-          'src="https://drive.google.com/thumbnail?id=' + item.id + '&sz=w900">' +
+          'src="../assets/photos/' + item.id + '">' +
         '</span>';
       track.appendChild(a);
       slides.push({ el: a, x: totalW, w });

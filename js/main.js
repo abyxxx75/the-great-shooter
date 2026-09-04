@@ -172,23 +172,6 @@
     });
   }
 
-  /* ---------- client hover preview ---------- */
-  const clientPreview = document.getElementById('clientPreview');
-  const clientPreviewImg = document.getElementById('clientPreviewImg');
-  if (clientPreview && clientPreviewImg && supportsFinePointer) {
-    document.querySelectorAll('.client-row').forEach(row => {
-      row.addEventListener('mouseenter', () => {
-        const seed = row.getAttribute('data-preview') || 'tgs-client';
-        clientPreviewImg.src = `https://picsum.photos/seed/${seed}/440/560`;
-        clientPreview.classList.add('is-visible');
-      });
-      row.addEventListener('mouseleave', () => clientPreview.classList.remove('is-visible'));
-      row.addEventListener('mousemove', (e) => {
-        clientPreview.style.left = e.clientX + 'px';
-        clientPreview.style.top = e.clientY + 'px';
-      });
-    });
-  }
 
   /* ---------- back to top ---------- */
   const backToTop = document.getElementById('backToTop');

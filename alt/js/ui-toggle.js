@@ -3,7 +3,7 @@
    Remembers the choice, so navigating inside a UI keeps you in that UI. */
 (() => {
   const KEY = 'tgs-ui';
-  const here = (document.currentScript && document.currentScript.dataset.ui) === 'alt' ? 'alt' : 'classic';
+  const here = (document.currentScript && document.currentScript.dataset.ui) === 'alt' ? 'alt' : 'flat';
   const page = location.pathname.split('/').pop() || 'index.html';
   const target = here === 'alt' ? '../' + page : 'alt/' + page;
 
@@ -15,7 +15,7 @@
   -webkit-tap-highlight-color:transparent;
 }
 .ui-toggle--fixed{ position:fixed; top:var(--pad,1.4rem); right:var(--pad,1.4rem); }
-/* Inline in the classic header: inherit its colour so it tracks the
+/* Inline in the flat header: inherit its colour so it tracks the
    light-over-hero / dark-when-scrolled states automatically. */
 .ui-toggle--inline{ position:relative; margin-left:1.4rem; color:inherit; }
 .ui-toggle__label{
@@ -62,10 +62,10 @@
     style.textContent = CSS;
     document.head.appendChild(style);
 
-    // In the classic UI there is a real header — sit inside it, at the right end.
+    // In the flat UI there is a real header — sit inside it, at the right end.
     // In the alternate UI the chrome is floating, so pin to the top right.
     const header = document.querySelector('.site-header');
-    const other = here === 'alt' ? 'classic' : 'immersive';
+    const other = here === 'alt' ? 'Flat' : 'Immersive';
 
     const el = document.createElement('div');
     el.className = 'ui-toggle ' + (header ? 'ui-toggle--inline' : 'ui-toggle--fixed');
@@ -75,7 +75,7 @@
     el.title = 'Switch to the ' + other + ' interface';
     if (!header) el.setAttribute('data-cursor', '');
     el.innerHTML =
-      '<span class="ui-toggle__label">' + (here === 'alt' ? 'Immersive' : 'Classic') + '</span>' +
+      '<span class="ui-toggle__label">' + (here === 'alt' ? 'Immersive' : 'Flat') + '</span>' +
       '<span class="ui-toggle__cube">' +
         '<span class="ui-toggle__face ui-toggle__face--front">' + (here === 'alt' ? '3D' : '2D') + '</span>' +
         '<span class="ui-toggle__face ui-toggle__face--bottom">' + (here === 'alt' ? '2D' : '3D') + '</span>' +
@@ -85,7 +85,7 @@
     const go = () => {
       if (going) return;
       going = true;
-      try { localStorage.setItem(KEY, here === 'alt' ? 'classic' : 'alt'); } catch (e) {}
+      try { localStorage.setItem(KEY, here === 'alt' ? 'flat' : 'alt'); } catch (e) {}
       el.classList.add('is-flipped');           // let the cube finish its turn first
       setTimeout(() => { location.href = target; }, 420);
     };

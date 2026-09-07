@@ -13,11 +13,6 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const titleEl = document.querySelector('.collection-title');
 
-  // touch devices pinch rather than scroll
-  if (matchMedia('(hover: none)').matches) {
-    const hud = document.querySelector('.hud');
-    if (hud) hud.innerHTML = '<span><b>Drag</b> to look around</span><span><b>Pinch</b> to zoom</span>';
-  }
 
   /* ---------- place the frames on a cylinder ---------- */
   // The frames sit on a wall that curves away at the edges rather than a

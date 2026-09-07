@@ -17,12 +17,9 @@
   const track = document.getElementById('track');
   const boot = document.getElementById('boot');
   const bootCount = document.getElementById('bootCount');
-  const hint = document.getElementById('scrollHint');
   if (!stage || !track) return;
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const touch = matchMedia('(hover: none)').matches;
-  if (hint && touch) hint.textContent = 'Drag to move through the archive';
 
   /* ---------- layout ---------- */
   const GAP = 30;
@@ -86,9 +83,6 @@
   /* ---------- input ---------- */
   function nudge(delta) {
     target += delta;
-    if (hint && !hint.classList.contains('is-gone') && Math.abs(delta) > 4) {
-      hint.classList.add('is-gone');
-    }
   }
 
   window.addEventListener('wheel', (e) => {
@@ -180,7 +174,6 @@
     }
     if (reduced) {
       order.forEach(i => slides[i].el.classList.add('is-in'));
-      if (hint) hint.classList.add('is-in');
       return;
     }
     // Driven by wall clock rather than a per-item timer, so a throttled or
@@ -192,13 +185,11 @@
       const want = Math.min(order.length, Math.ceil(((now - start) / SPAN) * order.length));
       while (shown < want) slides[order[shown++]].el.classList.add('is-in');
       if (shown < order.length) requestAnimationFrame(frame);
-      else if (hint) setTimeout(() => hint.classList.add('is-in'), 300);
     };
     requestAnimationFrame(frame);
     // failsafe: never leave frames hidden
     setTimeout(() => {
       while (shown < order.length) slides[order[shown++]].el.classList.add('is-in');
-      if (hint) hint.classList.add('is-in');
     }, SPAN + 2000);
   }
 

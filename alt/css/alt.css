@@ -141,14 +141,6 @@ button{ font:inherit; color:inherit; background:none; border:0; padding:0; curso
 .boot.is-marked .boot__count{ opacity:0; transform:scale(.94); }
 .boot.is-marked .boot__icon{ opacity:1; transform:scale(1); }
 
-.scroll-hint{
-  position:fixed; left:50%; bottom:calc(var(--pad) + 1.6rem); transform:translateX(-50%);
-  z-index:60; font-size:.62rem; letter-spacing:.18em; text-transform:uppercase;
-  color:var(--fg-faint); pointer-events:none;
-  opacity:0; transition:opacity 1s var(--ease);
-}
-.scroll-hint.is-in{ opacity:1; }
-.scroll-hint.is-gone{ opacity:0; }
 
 /* ---------------------------------------------------------
    COLLECTION — 3D drag/zoom wall
@@ -203,14 +195,6 @@ button{ font:inherit; color:inherit; background:none; border:0; padding:0; curso
 .collection-title.is-in h2{ opacity:1; transform:translateY(0); }
 .collection-title.is-gone h2{ opacity:0; }
 
-.hud{
-  position:fixed; left:50%; bottom:calc(var(--pad) + 2.4rem); transform:translateX(-50%);
-  z-index:60; display:flex; gap:1.4rem; align-items:center;
-  font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--fg-faint);
-  pointer-events:none; white-space:nowrap;
-}
-.hud span{ display:flex; align-items:center; gap:.4rem; }
-.hud b{ font-weight:600; color:var(--fg-soft); }
 
 /* collection switcher */
 .coll-nav{ display:flex; gap:1rem; font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; }
@@ -234,15 +218,11 @@ button{ font:inherit; color:inherit; background:none; border:0; padding:0; curso
     flex-direction:column; align-items:flex-start; gap:.5rem;
     font-size:.58rem;
   }
-  .alt-foot .archive-count{ display:none; }
   .alt-nav--foot{
     display:flex; flex-direction:row; flex-wrap:wrap; gap:.75rem;
     font-size:.6rem; letter-spacing:.1em; text-transform:uppercase;
   }
   .coll-nav{ gap:.75rem; font-size:.58rem; }
-
-  .hud{ gap:.8rem; font-size:.52rem; bottom:calc(var(--pad) + 3.6rem); }
-  .scroll-hint{ bottom:calc(var(--pad) + 3.4rem); font-size:.55rem; }
 }
 
 @media (prefers-reduced-motion:reduce){

@@ -7,4 +7,6 @@ desktop.ini
 # Local tooling — the dev server is a local convenience, not part of the site
 .vercel/
 node_modules/
+.preview/
+__pycache__/
 

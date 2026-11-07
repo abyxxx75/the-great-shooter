@@ -1,0 +1,188 @@
+/* Each collection shares the same slider behavior and has its own material. */
+.film-playhead__motion { display: block; width: 100%; height: 100%; }
+.film-strip__slider[data-material="lava"] {
+  --lava-core: #ffdc8b;
+  --lava-bright: #ff8a24;
+  --lava-flow: #f4470b;
+  --lava-red: #a51d08;
+  --lava-crust: #29100c;
+  --lava-cinder: #54180c;
+  --lava-glow: #ff661b66;
+  --lava-current-duration: calc(var(--duration-xslow) * 12);
+  --lava-smoke-duration: calc(var(--duration-xslow) * 15);
+}
+[data-material="lava"] .film-strip__tube {
+  background: var(--lava-crust);
+  box-shadow: inset 0 1px 2px #000, 0 0 5px #f4470b33, 0 1px 0 #ff8a2429;
+}
+[data-material="lava"] .film-strip__fill {
+  background:
+    radial-gradient(ellipse at 18% 40%, var(--lava-core), transparent 13%),
+    radial-gradient(ellipse at 73% 80%, var(--lava-bright), transparent 21%),
+    linear-gradient(180deg, var(--lava-cinder), var(--lava-bright) 24%, var(--lava-flow) 57%, var(--lava-red));
+}
+[data-material="lava"] .film-strip__current {
+  right: -128px; opacity: .8;
+  background:
+    repeating-linear-gradient(27deg, transparent 0 18px, var(--lava-crust) 20px 29px, transparent 32px 47px, var(--lava-cinder) 49px 61px, transparent 64px 128px),
+    repeating-linear-gradient(146deg, transparent 0 39px, var(--lava-crust) 41px 54px, transparent 57px 92px, var(--lava-core) 94px 95px, transparent 97px 128px);
+  animation: film-lava-current var(--lava-current-duration) linear infinite paused;
+}
+[data-material="lava"].is-material-active .film-strip__current { animation-play-state: running; }
+[data-material="lava"].is-reversing .film-strip__current { animation-direction: reverse; }
+[data-material="lava"] .film-strip__meniscus {
+  background: radial-gradient(ellipse at 35% 30%, var(--lava-core), var(--lava-bright) 38%, var(--lava-flow) 64%, var(--lava-red));
+  box-shadow: 0 0 8px var(--lava-glow);
+}
+[data-material="lava"] .film-dew { width: 22px; height: 36px; top: calc(50% - 8px); }
+[data-material="lava"] .film-dew__body { transform-origin: 50% 85%; filter: drop-shadow(0 0 3px var(--lava-glow)); }
+[data-material="lava"] .film-playhead__motion {
+  transform-origin: 50% 90%;
+  animation: film-fire-sway calc(var(--duration-xslow) * 3) var(--ease-soft) infinite paused;
+}
+.film-fire__tongue, .film-fire__core {
+  transform-box: view-box; transform-origin: 50% 90%;
+  animation: film-fire-tongue calc(var(--duration-xslow) * 2) var(--ease-soft) infinite alternate paused;
+}
+.film-fire__tongue--side { animation-delay: -.7s; animation-duration: calc(var(--duration-xslow) * 3); }
+.film-fire__core--white { animation-delay: -.4s; }
+.is-material-active .film-playhead__motion,
+.is-material-active .film-fire__tongue,
+.is-material-active .film-fire__core { animation-play-state: running; }
+@keyframes film-fire-sway {
+  0%, 100% { transform: rotate(-2deg) scale(.98,1); }
+  50% { transform: rotate(2deg) scale(1.03,.97); }
+}
+@keyframes film-fire-tongue {
+  from { transform: scale(.96,.93) skewX(-2deg); opacity: .85; }
+  to { transform: scale(1.03,1.04) skewX(2deg); opacity: 1; }
+}
+[data-material="lava"] .film-strip__range::-webkit-slider-thumb {
+  border-color: var(--lava-core); background: var(--lava-flow); box-shadow: 0 0 8px var(--lava-glow);
+}
+[data-material="lava"] .film-strip__range::-moz-range-thumb {
+  border-color: var(--lava-core); background: var(--lava-flow); box-shadow: 0 0 8px var(--lava-glow);
+}
+.film-lava-smoke { position: absolute; inset: 0; z-index: 1; overflow: visible; pointer-events: none; }
+.film-lava-smoke__emitter {
+  position: absolute; top: calc(50% + 2px); width: 0; height: 0; opacity: 0; pointer-events: none;
+  transition: opacity var(--duration-normal) var(--ease-soft);
+}
+.film-lava-smoke__emitter.is-emitting { opacity: 1; }
+.film-lava-smoke__head { left: 0; top: calc(50% + 13px); }
+.film-lava-smoke__wisp {
+  position: absolute; left: -16px; top: -6px; width: 32px; height: 60px; opacity: 0;
+  border-radius: 50%; pointer-events: none; transform-origin: 50% 0;
+  background:
+    radial-gradient(ellipse at 34% 65%, #a5a39d66, transparent 52%),
+    radial-gradient(ellipse at 70% 30%, #dbd4c44d, transparent 48%),
+    radial-gradient(ellipse at 42% 87%, #7c776f59, transparent 45%);
+  filter: blur(3px);
+  animation: film-lava-smoke var(--lava-smoke-duration) linear infinite paused;
+}
+.film-lava-smoke__wisp--curl {
+  width: 26px; height: 48px; left: -8px; animation-name: film-lava-smoke-curl;
+  animation-duration: calc(var(--lava-smoke-duration) * 1.2); animation-delay: -4.5s;
+}
+.is-material-active .film-lava-smoke__emitter.is-emitting .film-lava-smoke__wisp { animation-play-state: running; }
+@keyframes film-lava-current { to { transform: translate3d(-128px,0,0); } }
+/* Vapor curls into the image before rising: the rail sits at the viewport edge. */
+@keyframes film-lava-smoke {
+  0% { transform: translate3d(-3px,12px,0) scale(.95); opacity: 0; }
+  20% { transform: translate3d(1px,6px,0) scale(1.02); opacity: .36; }
+  62% { transform: translate3d(10px,-12px,0) scale(1.18,1.1); opacity: .22; }
+  100% { transform: translate3d(19px,-34px,0) scale(1.36,1.18); opacity: 0; }
+}
+@keyframes film-lava-smoke-curl {
+  0% { transform: translate3d(4px,9px,0) scale(.95); opacity: 0; }
+  25% { transform: translate3d(-1px,2px,0) scale(1.03); opacity: .3; }
+  65% { transform: translate3d(-11px,-14px,0) scale(1.17,1.1); opacity: .17; }
+  100% { transform: translate3d(-18px,-29px,0) scale(1.3,1.15); opacity: 0; }
+}
+
+/* Noon: a luminous fluorescent core, with a warm phosphor glow. */
+.film-strip__slider[data-material="sun"] {
+  --light-core: #fffef1;
+  --light-warm: #fff3af;
+  --light-edge: #e8be51;
+  --light-glow: #ffe8a480;
+}
+[data-material="sun"] .film-strip__tube {
+  background: #24231d; box-shadow: inset 0 1px 2px #000, 0 1px 0 #fff3af33;
+}
+[data-material="sun"] .film-strip__fill {
+  background: linear-gradient(180deg, var(--light-edge), var(--light-warm) 18%, var(--light-core) 38% 67%, var(--light-warm) 84%, var(--light-edge));
+}
+[data-material="sun"] .film-strip__current {
+  right: -128px; opacity: .65;
+  background: repeating-linear-gradient(90deg, transparent 0 34px, #ffffffbf 56px, #fff9d947 72px, transparent 100px 128px);
+  animation: film-fluorescent-current calc(var(--duration-xslow) * 10) linear infinite paused;
+}
+[data-material="sun"] .film-strip__meniscus {
+  background: radial-gradient(ellipse, var(--light-core), var(--light-warm) 65%, var(--light-edge));
+  box-shadow: 0 0 8px 2px var(--light-glow);
+}
+[data-material="sun"] .film-dew { width: 36px; height: 36px; top: calc(50% - 13px); }
+[data-material="sun"] .film-dew__body { transform-origin: 50% 50%; filter: drop-shadow(0 0 3px #ffcf5b70); }
+.film-sun__rays { transform-origin: 32px 32px; animation: film-sun-orbit calc(var(--duration-xslow) * 120) linear infinite paused; }
+.film-sun__halo { animation: film-celestial-glow calc(var(--duration-xslow) * 12) var(--ease-soft) infinite alternate paused; }
+@keyframes film-fluorescent-current { to { transform: translate3d(-128px,0,0); } }
+@keyframes film-sun-orbit { to { transform: rotate(360deg); } }
+
+/* Night: warm fine grains crossing a shallow dune, beneath a silver moon. */
+.film-strip__slider[data-material="sand"] {
+  --sand-light: #e7cf9e;
+  --sand-mid: #b89561;
+  --sand-dark: #6b5036;
+}
+[data-material="sand"] .film-strip__tube { background: #201c18; box-shadow: inset 0 1px 2px #000, 0 1px 0 #d2c0a229; }
+[data-material="sand"] .film-strip__fill {
+  background:
+    radial-gradient(circle at 1px 1px, #fff1ceaa .6px, transparent .9px) 0 0 / 5px 4px,
+    radial-gradient(circle at 2px 3px, #533b27a6 .5px, transparent .9px) 0 0 / 7px 5px,
+    linear-gradient(180deg, var(--sand-light), var(--sand-mid) 40%, var(--sand-dark));
+}
+[data-material="sand"] .film-strip__current {
+  right: -48px; opacity: .7;
+  background:
+    radial-gradient(ellipse at 2px 1px, #fff5daaa .6px, transparent 1px) 0 0 / 8px 6px,
+    radial-gradient(ellipse at 6px 4px, #5a402d99 .8px, transparent 1.2px) 0 0 / 16px 12px,
+    repeating-linear-gradient(165deg, transparent 0 9px, #f3dca24d 10px 12px, transparent 14px 24px);
+  animation: film-sand-drift calc(var(--duration-xslow) * 12) linear infinite paused;
+}
+[data-material="sand"] .film-strip__meniscus {
+  background: radial-gradient(ellipse at 35% 20%, var(--sand-light), var(--sand-mid) 65%, var(--sand-dark));
+  box-shadow: 0 1px 2px #0006;
+}
+[data-material="sand"] .film-dew { width: 32px; height: 32px; top: calc(50% - 11px); }
+[data-material="sand"] .film-dew__body { transform-origin: 50% 50%; filter: drop-shadow(0 0 3px #d4e6f04d); }
+[data-material="sand"] .film-playhead__motion,
+[data-material="water"] .film-playhead__motion {
+  animation: film-playhead-float calc(var(--duration-xslow) * 10) var(--ease-soft) infinite paused;
+}
+.film-moon__halo { animation: film-celestial-glow calc(var(--duration-xslow) * 15) var(--ease-soft) infinite alternate paused; }
+@keyframes film-sand-drift { to { transform: translate3d(-48px,0,0); } }
+@keyframes film-celestial-glow { from { opacity: .65; } to { opacity: 1; } }
+@keyframes film-playhead-float {
+  0%, 100% { transform: translate3d(0,0,0); }
+  50% { transform: translate3d(0,1.5px,0); }
+}
+
+/* The saved water skin retains its blue fill and original drop artwork. */
+[data-material="water"] .film-strip__current {
+  animation-duration: calc(var(--duration-xslow) * 6); animation-play-state: paused;
+}
+[data-material="sun"].is-material-active .film-strip__current,
+[data-material="sand"].is-material-active .film-strip__current,
+[data-material="water"].is-material-active .film-strip__current,
+.is-material-active .film-playhead__motion,
+.is-material-active .film-sun__rays,
+.is-material-active .film-sun__halo,
+.is-material-active .film-moon__halo { animation-play-state: running; }
+.film-strip__slider.is-reversing .film-strip__current { animation-direction: reverse; }
+
+@media (prefers-reduced-motion: reduce) {
+  .film-strip__slider .film-strip__current,
+  .film-playhead__motion, .film-playhead__motion * { animation: none !important; }
+  .film-lava-smoke { display: none; }
+}

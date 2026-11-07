@@ -37,6 +37,8 @@
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
+        if (document.documentElement.classList.contains('intro-pending') &&
+            entry.target.closest('.hero, .project-hero')) return;
         entry.target.classList.add('is-visible');
         revealObserver.unobserve(entry.target);
       }
@@ -46,9 +48,11 @@
 
   /* hero reveals shortly after load, not on scroll */
   function revealHero() {
-    document.querySelectorAll('.hero [data-reveal], .hero .split-lines').forEach(el => el.classList.add('is-visible'));
+    document.querySelectorAll('.hero [data-reveal], .hero .split-lines, .project-hero [data-reveal]').forEach(el => el.classList.add('is-visible'));
   }
-  window.requestAnimationFrame(() => setTimeout(revealHero, 250));
+  const introPending = document.documentElement.classList.contains('intro-pending');
+  if (introPending) document.addEventListener('tgs:intro-ready', revealHero, { once: true });
+  else window.requestAnimationFrame(() => setTimeout(revealHero, 250));
 
   /* ---------- hero background carousel ---------- */
   const heroMedia = document.getElementById('heroMedia');
@@ -70,12 +74,17 @@
     let slideIndex = slides.findIndex(img => img.classList.contains('is-active'));
     if (slideIndex < 0) slideIndex = 0;
     setActiveDot(slideIndex);
-    setInterval(() => {
-      slides[slideIndex].classList.remove('is-active');
-      slideIndex = (slideIndex + 1) % slides.length;
-      slides[slideIndex].classList.add('is-active');
+    function startCarousel() {
       setActiveDot(slideIndex);
-    }, 4200);
+      setInterval(() => {
+        slides[slideIndex].classList.remove('is-active');
+        slideIndex = (slideIndex + 1) % slides.length;
+        slides[slideIndex].classList.add('is-active');
+        setActiveDot(slideIndex);
+      }, 4200);
+    }
+    if (introPending) document.addEventListener('tgs:intro-ready', startCarousel, { once: true });
+    else startCarousel();
   }
 
   /* ---------- header state + scroll progress ---------- */
@@ -120,43 +129,7 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* ---------- custom cursor ---------- */
-  if (supportsFinePointer) {
-    const cursor = document.getElementById('cursor');
-    const label = cursor ? cursor.querySelector('.cursor__label') : null;
-    let cx = window.innerWidth / 2, cy = window.innerHeight / 2;
-    let tx = cx, ty = cy;
-
-    window.addEventListener('mousemove', (e) => { tx = e.clientX; ty = e.clientY; });
-
-    function loop() {
-      cx += (tx - cx) * 0.18;
-      cy += (ty - cy) * 0.18;
-      if (cursor) cursor.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
-      requestAnimationFrame(loop);
-    }
-    loop();
-
-    document.addEventListener('mouseover', (e) => {
-      const target = e.target.closest('[data-cursor]');
-      if (!target || !cursor) return;
-      const mode = target.getAttribute('data-cursor');
-      cursor.classList.remove('is-hover', 'is-active');
-      if (mode === 'view' || mode === 'open') {
-        cursor.classList.add('is-active');
-        if (label) label.textContent = mode.toUpperCase();
-      } else {
-        cursor.classList.add('is-hover');
-      }
-    });
-    document.addEventListener('mouseout', (e) => {
-      const target = e.target.closest('[data-cursor]');
-      if (!target || !cursor) return;
-      const toTarget = e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('[data-cursor]');
-      if (toTarget === target) return;
-      cursor.classList.remove('is-hover', 'is-active');
-    });
-  }
+  // The branded pointer is rendered natively by CSS.
 
   /* ---------- mobile menu ---------- */
   const navToggle = document.getElementById('navToggle');
@@ -176,6 +149,9 @@
   /* ---------- back to top ---------- */
   const backToTop = document.getElementById('backToTop');
   if (backToTop) {
-    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    backToTop.addEventListener('click', () => window.scrollTo({
+      top: 0,
+      behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+    }));
   }
 })();

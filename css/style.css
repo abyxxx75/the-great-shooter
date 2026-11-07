@@ -102,33 +102,14 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
 /* ---------------------------------------------------------
    Custom cursor
 --------------------------------------------------------- */
-.cursor{
-  position:fixed; top:0; left:0; width:11px; height:11px;
-  margin:-5.5px 0 0 -5.5px;
-  border-radius:50%;
-  background:var(--white);
-  mix-blend-mode:difference;
-  pointer-events:none;
-  z-index:1002;
-  display:flex; align-items:center; justify-content:center;
-  transition:width .38s var(--ease), height .38s var(--ease), background-color .38s var(--ease), margin .38s var(--ease);
-  will-change:transform;
+/* Use the supplied artwork as a native cursor, with its crosshair as the hotspot. */
+.cursor { display: none; }
+body.no-custom-cursor .grain { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  body, body * {
+    cursor: url('../assets/logo/shooter-pointer.svg') 16 16, auto !important;
+  }
 }
-.cursor__label{
-  font-family:var(--font-sans); font-size:.68rem; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--ink); opacity:0;
-  transition:opacity .25s var(--ease); white-space:nowrap;
-}
-.cursor.is-hover{ width:34px; height:34px; margin:-17px 0 0 -17px; background:var(--white-soft); }
-.cursor.is-active{
-  width:104px; height:104px; margin:-52px 0 0 -52px;
-  background:var(--paper); mix-blend-mode:normal;
-  box-shadow:0 10px 40px rgba(0,0,0,.18);
-}
-.cursor.is-active .cursor__label{ opacity:1; }
-body.no-custom-cursor .cursor,
-body.no-custom-cursor .grain{ display:none; }
-body.no-custom-cursor, body.no-custom-cursor a, body.no-custom-cursor button{ cursor:auto; }
 
 /* ---------------------------------------------------------
    Reveal utilities

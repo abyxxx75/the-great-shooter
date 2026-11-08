@@ -1,5 +1,5 @@
-/* Image data — file names under assets/photos/, generated from the main UI
-   pages so both UIs stay in sync. */
+/* Image data mirrored from the main collection galleries.
+   Both interfaces share the same membership and image order. */
 window.TGS_IMAGES = {
   "daybreak": [
     "daybreak-01.jpg",
@@ -7,8 +7,6 @@ window.TGS_IMAGES = {
     "daybreak-03.jpg",
     "daybreak-04.jpg",
     "daybreak-05.jpg",
-    "daybreak-06.jpg",
-    "daybreak-07.jpg",
     "daybreak-08.jpg",
     "daybreak-09.jpg",
     "daybreak-10.jpg",
@@ -16,12 +14,14 @@ window.TGS_IMAGES = {
     "daybreak-12.jpg",
     "daybreak-13.jpg",
     "daybreak-14.jpg",
-    "daybreak-15.jpg",
-    "daybreak-16.jpg",
     "daybreak-17.jpg",
     "daybreak-18.jpg",
     "daybreak-19.jpg",
     "daybreak-20.jpg",
+    "waterfront-19.jpg",
+    "waterfront-21.jpg",
+    "waterfront-22.jpg",
+    "waterfront-27.jpg"
   ],
   "noon": [
     "noon-01.jpg",
@@ -31,7 +31,6 @@ window.TGS_IMAGES = {
     "noon-05.jpg",
     "noon-06.jpg",
     "noon-07.jpg",
-    "noon-08.jpg",
     "noon-09.jpg",
     "noon-10.jpg",
     "noon-11.jpg",
@@ -39,7 +38,6 @@ window.TGS_IMAGES = {
     "noon-13.jpg",
     "noon-14.jpg",
     "noon-15.jpg",
-    "noon-16.jpg",
     "noon-17.jpg",
     "noon-18.jpg",
     "noon-19.jpg",
@@ -57,10 +55,9 @@ window.TGS_IMAGES = {
     "noon-31.jpg",
     "noon-32.jpg",
     "noon-33.jpg",
-    "noon-34.jpg",
     "noon-35.jpg",
     "noon-36.jpg",
-    "noon-37.jpg",
+    "noon-37.jpg"
   ],
   "night": [
     "night-01.jpg",
@@ -70,13 +67,13 @@ window.TGS_IMAGES = {
     "night-05.jpg",
     "night-06.jpg",
     "night-07.jpg",
+    "waterfront-05.jpg"
   ],
   "waterfront": [
     "waterfront-01.jpg",
     "waterfront-02.jpg",
     "waterfront-03.jpg",
     "waterfront-04.jpg",
-    "waterfront-05.jpg",
     "waterfront-06.jpg",
     "waterfront-07.jpg",
     "waterfront-08.jpg",
@@ -90,16 +87,12 @@ window.TGS_IMAGES = {
     "waterfront-16.jpg",
     "waterfront-17.jpg",
     "waterfront-18.jpg",
-    "waterfront-19.jpg",
     "waterfront-20.jpg",
-    "waterfront-21.jpg",
-    "waterfront-22.jpg",
     "waterfront-23.jpg",
     "waterfront-24.jpg",
     "waterfront-25.jpg",
     "waterfront-26.jpg",
-    "waterfront-27.jpg",
     "waterfront-28.jpg",
-    "waterfront-29.jpg",
-  ],
+    "waterfront-29.jpg"
+  ]
 };
